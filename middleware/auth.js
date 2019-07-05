@@ -1,0 +1,24 @@
+const jwt = require("jsonwebtoken");
+const config = require("config");
+
+//middle ware funct has access to request and response obj
+//next is a callback that moves to the next piece of mdlware
+module.exports = function(req, res, next) {
+  //Get token from header, x-auth is the header key you wanna send the token in
+  const token = req.header("u-auth-token");
+
+  //Check if not token
+  if (!token) {
+    return res.status(401).json({ msg: "No token, authorization denied" });
+  }
+
+  //Verify token
+  try {
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+
+    req.user = decoded.user;
+    next();
+  } catch (err) {
+    res.status(401).json({ msg: "Token is not valid" });
+  }
+};
