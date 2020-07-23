@@ -3,9 +3,9 @@ const config = require("config");
 
 //middle ware funct has access to request and response obj
 //next is a callback that moves to the next piece of mdlware
-module.exports = function(req, res, next) {
-  //Get token from header, u-auth is the header key you wanna send the token in
-  const token = req.header("u-auth-token");
+module.exports = function (req, res, next) {
+  //Get token from header, x-auth is the header key you wanna send the token in
+  const token = req.header("x-auth-token");
 
   //Check if not token
   if (!token) {
